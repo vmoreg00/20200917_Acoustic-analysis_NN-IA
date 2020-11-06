@@ -15,8 +15,13 @@ import gc
 import librosa
 from sklearn.model_selection import train_test_split
 
+##############################################################################
+###                                FUNCTIONS                               ###
+##############################################################################
 def extraer_segmento_audio(audio_completo, sample_rate, segundo, longitud_segmento):
-    return audio_completo[sample_rate*segundo:(sample_rate*segundo)+(longitud_segmento*sample_rate)]
+    start = int(round(sample_rate*segundo))
+    end = int(round(start+(longitud_segmento*sample_rate)))
+    return audio_completo[start:end]
 
 def crear_espectrogramas(df_original, f_name_db, sr=16000, n_fft=1024, 
                          window='hannig', win_length=400, hop_length=160,
@@ -53,7 +58,6 @@ def crear_espectrogramas(df_original, f_name_db, sr=16000, n_fft=1024,
                 audio, sample_rate = librosa.load(fila.Archivo, 
                                                   res_type='kaiser_fast', 
                                                   sr=sr)
-            else:
                 last_audio = fila.Archivo
                 
             # Con 5 segundos se obtiene el 'spectrogram_dimensiones' 
@@ -93,6 +97,10 @@ def crear_espectrogramas(df_original, f_name_db, sr=16000, n_fft=1024,
                 i=0
     return df
 
+
+##############################################################################
+###                                  MAIN                                  ###
+##############################################################################
 def main():
     # Read dataset
     datos = pd.read_csv('data/calls_dataset.csv')
@@ -104,7 +112,7 @@ def main():
     
     # Train spectrograms database
     print('Creando espectrogramas del conjunto de train...')
-    train_table = crear_espectrogramas(train, 'data/train_db.h5' )
+    train_table = crear_espectrogramas(train, 'data/train_db.h5')
     #Guardar tabla resultante
     train_table.to_csv('data/spectrograms_train.csv')
     gc.collect()
