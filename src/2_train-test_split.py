@@ -35,17 +35,12 @@ def crear_espectrogramas(df_original, f_name_db, sr=16000, n_fft=1024,
     i=0
     index = 0
     lista_nombres = []
-    last_audio = ""
     
     # Recorre la tabla original fila a fila
     for indice_fila, fila in tqdm(df_original.iterrows()):
 
         # El nuevo fragmento se guardará con el nombre concatenado del 
         # archivo original junto al segundo del fragmento analizado.
-        #
-        # Por ejemplo si el archivo es audio_yellow_1 y trabajamos con el
-        # segundo 22 se audio, entonces el nombre de ese fragmento
-        # será audio_yellow_1_22
         segment_name = str(fila.ID) + '_' + str(int(round(fila.Segundo)))
         
         #Comprueba que el nombre no esté repetido
@@ -54,18 +49,11 @@ def crear_espectrogramas(df_original, f_name_db, sr=16000, n_fft=1024,
             lista_nombres.append(segment_name)
 
             # Se lee el audio original si es distinto al anterior
-            if last_audio != fila.Archivo:
-                audio, sample_rate = librosa.load(fila.Archivo, 
-                                                  res_type='kaiser_fast', 
-                                                  sr=sr)
-                last_audio = fila.Archivo
-                
-            # Con 5 segundos se obtiene el 'spectrogram_dimensiones' 
-            # si se modifica este valor tambien debe cambiarse el de 
-            # spectrogram_dimensiones
-            seg_audio = extraer_segmento_audio(audio, sample_rate, 
-                                               fila.Segundo, 5)
-            # audio=0
+            audio, sample_rate = librosa.load(fila.Archivo, 
+                                              offset = fila.Segundo,
+                                              duration = 5,
+                                              res_type='kaiser_fast', 
+                                              sr=sr)
 
             df.at[index, 'Archivo'] = fila.Archivo
             df.at[index, 'Nombre_fragmento'] = segment_name
@@ -73,16 +61,16 @@ def crear_espectrogramas(df_original, f_name_db, sr=16000, n_fft=1024,
             df.at[index, 'Segundo'] = fila.Segundo
             
             # Creación de espectrogramas
-            spectrogram = np.abs(librosa.stft(seg_audio, n_fft=n_fft, 
+            spectrogram = np.abs(librosa.stft(audio, n_fft=n_fft, 
                                               window='hanning', 
                                               win_length=win_length, 
                                               hop_length=hop_length))
             spectrogram_db = librosa.power_to_db(spectrogram, ref=np.max)
-
+            
             # Se agrega una dimensión extra debido a que la red neuronal
             # necesita imagenes de 3 dimensiones.
             spectrogram_db = np.expand_dims(spectrogram_db, axis=2)
-
+            
             # Almacenar espectrogramas en archivo .h5.
             # El nombre de cada espectrograma en el archivo será 'segment_name'
             with h5py.File(f_name_db,'a') as f1:
@@ -112,14 +100,16 @@ def main():
     
     # Train spectrograms database
     print('Creando espectrogramas del conjunto de train...')
-    train_table = crear_espectrogramas(train, 'data/train_db.h5')
+    train_table = crear_espectrogramas(train, 'data/train_db.h5',
+                                       win_length = 300, hop_length=160)
     #Guardar tabla resultante
     train_table.to_csv('data/spectrograms_train.csv')
     gc.collect()
     
     # Test spectrograms database
     print('Creando espectrogramas del conjunto de test...')
-    test_table =crear_espectrogramas(test, 'data/test_db.h5' )
+    test_table =crear_espectrogramas(test, 'data/test_db.h5',
+                                       win_length = 300, hop_length=160)
     #Guardar tabla resultante
     test_table.to_csv('data/spectrograms_test.csv')
     gc.collect()
