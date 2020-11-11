@@ -48,8 +48,12 @@ hyperparameters:
   * sampling rate = 16000 Hz
   * n_fft = 1024
   * win_length = 300
-  * hop_length = 160
-  * spectrogram dimensions = (513, 501, 1)
+  * hop_length = 150 (=50 %)
+
+Given those hyperparamenter, spectrograms dimensions
+should be:
+
+  * spectrogram dimensions = (513, 534, 1)
 
 ## Stage 2 -- Use the model to recognize all crow vocalizations
 

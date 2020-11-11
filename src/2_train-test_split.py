@@ -38,7 +38,6 @@ def crear_espectrogramas(df_original, f_name_db, sr=16000, n_fft=1024,
     
     # Recorre la tabla original fila a fila
     for indice_fila, fila in tqdm(df_original.iterrows()):
-
         # El nuevo fragmento se guardará con el nombre concatenado del 
         # archivo original junto al segundo del fragmento analizado.
         segment_name = str(fila.ID) + '_' + str(int(round(fila.Segundo)))
@@ -101,17 +100,21 @@ def main():
     # Train spectrograms database
     print('Creando espectrogramas del conjunto de train...')
     train_table = crear_espectrogramas(train, 'data/train_db.h5',
-                                       win_length = 300, hop_length=160)
+                                       win_length = 300, hop_length=150,
+                                       spectrogram_dimensiones=(513,534,1))
     #Guardar tabla resultante
     train_table.to_csv('data/spectrograms_train.csv')
     gc.collect()
     
     # Test spectrograms database
     print('Creando espectrogramas del conjunto de test...')
-    test_table =crear_espectrogramas(test, 'data/test_db.h5',
-                                       win_length = 300, hop_length=160)
+    test_table = crear_espectrogramas(test, 'data/test_db.h5',
+                                      win_length = 300, hop_length=150,
+                                      spectrogram_dimensiones=(513,534,1))
     #Guardar tabla resultante
     test_table.to_csv('data/spectrograms_test.csv')
     gc.collect()
+    
+    
 if __name__ == '__main__':
     main()
