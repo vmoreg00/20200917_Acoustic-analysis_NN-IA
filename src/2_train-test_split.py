@@ -3,8 +3,14 @@
 """
 Created on Thu Nov  5 16:41:32 2020
 
-@author: msi
+@name: 2_train-test_split.py
+@author: Andrés Vasco
+@modified: Víctor Moreno González <vmorg@unileon.es>
+@description: Split the dataset into train (70%) and test (30%) and construct
+              the spectrograms, which are stored in *.h5 files.
+@run: python 2_train-test_split.py
 """
+
 import joblib
 import h5py
 import os
