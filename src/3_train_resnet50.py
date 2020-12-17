@@ -79,9 +79,12 @@ class DataGenerator(Sequence):
 ###                                  MAIN                                  ###
 ##############################################################################
 def main():
+    if not os.path.isdir('results'):
+        os.mkdir('results')
+
     #Lee los datos de los conjuntos test y train
-    train_data = pd.read_csv('data/spectrograms_test.csv')
-    test_data = pd.read_csv('data/spectrograms_train.csv')
+    train_data = pd.read_csv('data/spectrograms_train.csv')
+    test_data = pd.read_csv('data/spectrograms_test.csv')
     
     #Dirección de los archivos con los espectrogramas
     data_train_path = 'data/train_db.h5'
@@ -98,20 +101,20 @@ def main():
     
     training_generator = DataGenerator(data_path= data_train_path, 
                                        dataframe= train_data, 
-                                       x_col_name= 'Nombre_fragmento', 
+                                       x_col_name= 'Nombre_fragmento',
                                        y_col_name= 'Sonido', 
-                                       onehotencoder= onehotencoder, 
+                                       onehotencoder= onehotencoder,
                                        batch_size=batch_size,
                                        shape=shape, 
                                        shuffle= True)
     validation_generator = DataGenerator(data_path = data_test_path, 
                                          dataframe= test_data, 
-                                        x_col_name= 'Nombre_fragmento',
-                                        y_col_name= 'Sonido',
-                                        onehotencoder= onehotencoder, 
-                                        batch_size=batch_size,
-                                        shape=shape,
-                                        shuffle= False)
+                                         x_col_name= 'Nombre_fragmento',
+                                         y_col_name= 'Sonido',
+                                         onehotencoder= onehotencoder,
+                                         batch_size=batch_size,
+                                         shape=shape,
+                                         shuffle= False)
     
     classes=len(np.unique(train_data.Sonido.values))
     
@@ -126,7 +129,7 @@ def main():
     lr_scheduler = LearningRateScheduler(decay_schedule)
     
     # En el ResNet50V2_best_model.h5 se almacena el mejor modelo de entre todos los epoch de entrenamiento
-    checkpoint = ModelCheckpoint('ResNet50V2_best_model.h5',
+    checkpoint = ModelCheckpoint('results/ResNet50V2_best_model.h5',
                                  monitor='val_accuracy',
                                  save_best_only=True,
                                  mode='auto')
@@ -148,13 +151,10 @@ def main():
                         callbacks=[checkpoint, lr_scheduler])
     
     # Almacenar el historial de entrenamiento
-    if not os.path.isdir('results'):
-        os.mkdir('resutls')
-        
     hist_df = pd.DataFrame(history.history) 
     hist_csv_file = 'results/ResNet50V2_historial_de_entrenamiento.csv'
     with open(hist_csv_file, mode='w') as f:
         hist_df.to_csv(f)
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

@@ -35,7 +35,7 @@ def crear_espectrogramas(df_original, f_name_db, sr=16000, n_fft=1024,
 
     # Nueva tabla donde se guardará la información de los 
     # espectrogramas generados
-    df = pd.DataFrame(columns=['Archivo', 'Nombre_fragmento', 'Sonido', 'Segundo'])
+    df = pd.DataFrame(columns=['Archivo_original', 'Nombre_fragmento', 'Sonido', 'Segundo'])
     
     #first_iteration = True
     i=0
@@ -46,6 +46,7 @@ def crear_espectrogramas(df_original, f_name_db, sr=16000, n_fft=1024,
     for indice_fila, fila in tqdm(df_original.iterrows()):
         # El nuevo fragmento se guardará con el nombre concatenado del 
         # archivo original junto al segundo del fragmento analizado.
+        #segment_name = os.path.splitext(fila.Archivo)[0]+'_'+str(int(round(fila.Segundo)))
         segment_name = str(fila.ID) + '_' + str(int(round(fila.Segundo)))
         
         #Comprueba que el nombre no esté repetido
@@ -60,7 +61,7 @@ def crear_espectrogramas(df_original, f_name_db, sr=16000, n_fft=1024,
                                               res_type='kaiser_fast', 
                                               sr=sr)
 
-            df.at[index, 'Archivo'] = fila.Archivo
+            df.at[index, 'Archivo_original'] = fila.Archivo
             df.at[index, 'Nombre_fragmento'] = segment_name
             df.at[index, 'Sonido'] = fila.Sonido
             df.at[index, 'Segundo'] = fila.Segundo
