@@ -17,17 +17,27 @@ recorded from YYY hours
 ## Stage 0 -- Vocalization extraction
 In past analysis, I have extracted some vocalizations as 
 well as environment, flight and chick noises (Table 1).
-Due to the large ammount of noises, I have removed
-randomly 1500 of them in order to equilibrate them
-with the number of 'crow' clips.
+For a better training of the model, I have performed
+a data augmentation in which I have triplicate the number
+of crows vocalizations by substracting 0.5-2.45 s and
+2.55-4.5 s to every carrion crow call. In this step,
+I have ensure that all clips that contain the 
+same vocalizations (because of data augmentation
+procedure) are in the same set (train or test) to
+avoid over fitting in the Neural Network training.
+
+This stage has been conducted in R 
+(see [1_vocalization-export.R](src/1_vocalization-export.R))
+for more information.
 
 Table 1: Number of clips and seconds per type of sound
+
 | Sound   | Number | Seconds | N in test | N in train |
 |---------|--------|---------|-----------|------------|
-| Crow    |  1053  |  5265   |    316    |    737     |
-| Noise   |  2527  |  12635  |    308    |    719     |
-| Flights |  340   |  1700   |    102    |    283     |
-| Chicks  |  233   |  1164   |     70    |    163     |
+| Crow    |  3159  |  15755  |    948    |   2211     |
+| Noise   |  2527  |  12635  |    758    |   1769     |
+| Flights |  340   |   1700  |    102    |    283     |
+| Chicks  |  233   |   1164  |     70    |    163     |
 
 
 In order to create a better model, the start of crow calls 
@@ -55,6 +65,11 @@ should be:
 
   * spectrogram dimensions = (513, 534, 1)
 
+
+The Neural Network ResNet50_v2 has been trained with a
+learining rate of 0.1 and 80 epochs, using Adam optimizer.
+
 ## Stage 2 -- Use the model to recognize all crow vocalizations
 
 ## Stage 3 -- Classify crow vocalizations
+
