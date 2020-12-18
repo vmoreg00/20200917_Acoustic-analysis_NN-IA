@@ -147,7 +147,7 @@ def main():
     # Entrenamiento del modelo
     history = model.fit(training_generator,
                         validation_data=validation_generator,
-                        epochs=50,
+                        epochs=80,
                         callbacks=[checkpoint, lr_scheduler])
     
     # Almacenar el historial de entrenamiento

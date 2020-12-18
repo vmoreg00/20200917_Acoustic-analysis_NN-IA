@@ -98,12 +98,13 @@ def crear_espectrogramas(df_original, f_name_db, sr=16000, n_fft=1024,
 def main():
     # Read dataset
     datos = pd.read_csv('data/calls_dataset.csv')
+    split = datos['train_test_split']
+    datos.drop('train_test_split', inplace=True, axis=1)
     datos = datos.rename(columns={'callID':'ID', 'location':'Archivo', 
                                   'start':'Segundo', 'label':'Sonido'})
     # Train-test split; train = 70%; test = 30%
-    train, test = train_test_split(datos, test_size=0.3,
-                                   stratify=datos['Sonido'])
-    
+    train = datos[split=="train"]
+    test = datos[split=="test"]
     # Train spectrograms database
     print('Creando espectrogramas del conjunto de train...')
     train_table = crear_espectrogramas(train, 'data/train_db.h5',
