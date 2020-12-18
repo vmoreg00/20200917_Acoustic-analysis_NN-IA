@@ -38,6 +38,13 @@ calls <- aggregate(calls, by = list(callID = calls$callID),
                    })[,-1]
 
 # Call's data augmentation ====================================================
+# determine train-test split (.7/.3)
+#' All audio clips that contain the same vocalizations must be in the same
+#' subset (ie: train or test). For this reason, I will assign the train-test
+#' split and assign the same split to the augmented subsets.
+train <- sample(1:nrow(calls), size=round(nrow(calls)*.7))
+calls$train_test_split <- "test"
+calls$train_test_split[train] <- "train"
 # Substract 0.5-2.45 s
 calls_ss1 <- calls
 calls_ss1$start <- calls_ss1$start - runif(n = nrow(calls), min = 0.5, max = 2.45)
@@ -74,9 +81,16 @@ c.vocs$duration <- 5
 ## Check
 table(c.vocs$label)
 aggregate(c.vocs$duration, by = list(c.vocs$label), sum)
+## Train test split (per label)
+c.vocs$train_test_split <- "test"
+for(l in unique(c.vocs$label)){
+  idx <- which(c.vocs$label == l)
+  train <- sample(idx, size = round(length(idx)*0.7))
+  c.vocs$train_test_split[train] <- "train"
+}; rm(l, idx, train)
 ## Assign IDs
 c.vocs$ID <- 1:nrow(c.vocs)
-c.vocs <- c.vocs[, c("ID", "file", "start.in.file", "label")]
+c.vocs <- c.vocs[, c("ID", "file", "start.in.file", "train_test_split", "label")]
 c.vocs$ID <- paste0("n_", c.vocs$ID)
 colnames(c.vocs) <- colnames(calls)
 

@@ -101,7 +101,7 @@ def main():
     datos = datos.rename(columns={'callID':'ID', 'location':'Archivo', 
                                   'start':'Segundo', 'label':'Sonido'})
     # Train-test split; train = 70%; test = 30%
-    train, test = train_test_split(datos, test_size=0.3, 
+    train, test = train_test_split(datos, test_size=0.3,
                                    stratify=datos['Sonido'])
     
     # Train spectrograms database
