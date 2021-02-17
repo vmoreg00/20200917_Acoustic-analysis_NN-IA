@@ -10,6 +10,7 @@ import pandas as pd
 import librosa
 import h5py
 import os
+import sys
 from sklearn.preprocessing import OneHotEncoder
 from tensorflow.keras.utils import Sequence
 from tensorflow.keras.optimizers import Adam
@@ -18,62 +19,9 @@ from tensorflow.keras.applications.resnet_v2 import ResNet50V2
 from tensorflow.keras import Input
 from tensorflow.keras.callbacks import ModelCheckpoint, LearningRateScheduler
 
-##############################################################################
-###                             CLASSES                                    ###
-##############################################################################
-# Metodo utilizado para entrenar al modelo mediante batches
-class DataGenerator(Sequence): 
-    'Generates data for Keras'
-    def __init__(self, data_path, dataframe, x_col_name, y_col_name, onehotencoder, batch_size=32, shape=(513,401,1),
-                 shuffle=True):
-        'Initialization'
-        self.shape = shape
-        self.batch_size = batch_size
-        self.dataframe = dataframe
-        self.x_col_name = x_col_name
-        self.y_col_name = y_col_name
-        #self.n_classes = n_classes
-        self.shuffle = shuffle
-        self.on_epoch_end()
-        self.onehotencoder = onehotencoder
-        #self.table = table
-        self.data_path = data_path
-
-    def __len__(self):
-        'Denotes the number of batches per epoch'
-        return int(np.floor(len(self.indexes) / self.batch_size))
-    
-    def __getitem__(self, index):
-        'Generate one batch of data'
-        
-        indexes = self.indexes[index*self.batch_size:(index+1)*self.batch_size]        
-        X, y = self.__data_generation(self.dataframe.loc[indexes])
-
-        return X, y
-
-    def on_epoch_end(self):
-                   
-        self.indexes = list(self.dataframe.index)
-        
-        'Updates indexes after each epoch'
-        if self.shuffle == True:
-            np.random.shuffle(self.indexes)
-
-    def __data_generation(self, batch_df):
-        'Generates data containing batch_size samples' # X : (n_samples, *dim, n_channels)
-        
-        # Initialization
-        X = np.empty((self.batch_size, *self.shape))   #tal vez hay que reemplazar batch_size por len(batch_df)
-        y = []
-        
-        # Generate data
-        with h5py.File(self.data_path,'r') as h5f:
-            for i, (r_i, row) in enumerate(batch_df.iterrows()):         
-                X[i,] = h5f[row[self.x_col_name]][:]
-                y.append(row[self.y_col_name])
-
-        y = self.onehotencoder.transform(np.reshape(y, (-1,1))).toarray()
-        return X, y
+# Cargar funciones
+sys.path.insert(0, "./src/")
+import utility_functions as uf
 
 ##############################################################################
 ###                                  MAIN                                  ###
@@ -99,22 +47,22 @@ def main():
     
     shape = (513,534,1)
     
-    training_generator = DataGenerator(data_path= data_train_path, 
-                                       dataframe= train_data, 
-                                       x_col_name= 'Nombre_fragmento',
-                                       y_col_name= 'Sonido', 
-                                       onehotencoder= onehotencoder,
-                                       batch_size=batch_size,
-                                       shape=shape, 
-                                       shuffle= True)
-    validation_generator = DataGenerator(data_path = data_test_path, 
-                                         dataframe= test_data, 
-                                         x_col_name= 'Nombre_fragmento',
-                                         y_col_name= 'Sonido',
-                                         onehotencoder= onehotencoder,
-                                         batch_size=batch_size,
-                                         shape=shape,
-                                         shuffle= False)
+    training_generator = uf.DataGenerator(data_path= data_train_path, 
+                                          dataframe= train_data, 
+                                          x_col_name= 'Nombre_fragmento',
+                                          y_col_name= 'Sonido', 
+                                          onehotencoder= onehotencoder,
+                                          batch_size=batch_size,
+                                           shape=shape, 
+                                          shuffle= True)
+    validation_generator = uf.DataGenerator(data_path = data_test_path, 
+                                            dataframe= test_data, 
+                                            x_col_name= 'Nombre_fragmento',
+                                            y_col_name= 'Sonido',
+                                            onehotencoder= onehotencoder,
+                                            batch_size=batch_size,
+                                            shape=shape,
+                                            shuffle= False)
     
     classes=len(np.unique(train_data.Sonido.values))
     

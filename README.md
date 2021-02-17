@@ -2,31 +2,31 @@
   * **Author**: Víctor Moreno-González <vmorg@unileon.es>
   * **Date**: 2020-09-17
 
-Automatic crow vocalization recognition has been a tough 
-task since it is very difficult to differenciate correctly 
-those vocalizations from the background noise. Thus, with 
-the help of the GVIS group from the University of León, we 
-will use a new methodology for automatic selection of crow 
-vocalizations in the whole dataset (up to 3000 H). Then, 
-we will use this dataset to perform an objective 
+Automatic crow vocalization recognition has been a tough
+task since it is very difficult to differenciate correctly
+those vocalizations from the background noise. Thus, with
+the help of the GVIS group from the University of León, we
+will use a new methodology for automatic selection of crow
+vocalizations in the whole dataset (up to 3000 H). Then,
+we will use this dataset to perform an objective
 classification of crow vocalizations.
 
-To do this, we will use a subset in of XXX vocalizations 
+To do this, we will use a subset in of XXX vocalizations
 recorded from YYY hours
 
 ## Stage 0 -- Vocalization extraction
-In past analysis, I have extracted some vocalizations as 
+In past analysis, I have extracted some vocalizations as
 well as environment, flight and chick noises (Table 1).
 For a better training of the model, I have performed
 a data augmentation in which I have triplicate the number
 of crows vocalizations by substracting 0.5-2.45 s and
 2.55-4.5 s to every carrion crow call. In this step,
-I have ensure that all clips that contain the 
+I have ensure that all clips that contain the
 same vocalizations (because of data augmentation
 procedure) are in the same set (train or test) to
 avoid over fitting in the Neural Network training.
 
-This stage has been conducted in R 
+This stage has been conducted in R
 (see [1_vocalization-export.R](src/1_vocalization-export.R))
 for more information.
 
@@ -40,9 +40,9 @@ Table 1: Number of clips and seconds per type of sound
 | Chicks  |  233   |   1164  |     70    |    163     |
 
 
-In order to create a better model, the start of crow calls 
-has been randomly reduced from 0 to 4.5 seconds. In this 
-way the crow calls clips will contain entire and 
+In order to create a better model, the start of crow calls
+has been randomly reduced from 0 to 4.5 seconds. In this
+way the crow calls clips will contain entire and
 non-entire calls.
 
 ## Stage 1 -- Train a model for crow recognition
@@ -52,7 +52,7 @@ Following the recomendations of GVIS group, the sizes
 of each subset will be 70 and 30 % respectively.
 
 After train/test split, audio clips will be read and
-spectrograms will be created with the following 
+spectrograms will be created with the following
 hyperparameters:
 
   * sampling rate = 16000 Hz
@@ -68,8 +68,19 @@ should be:
 
 The Neural Network ResNet50_v2 has been trained with a
 learining rate of 0.1 and 80 epochs, using Adam optimizer.
+After several days of training in the INCIBE server,
+the model has been fitted with a 96.75 % of accuracy
+(see [`result history`](results/ResNet50V2_historial_de_entrenamiento.csv)).
+In a first check it seems that, for crow sounds, there are
+very few false negatives. The problem arrise for false positives
+for crow sounds: in the first files of recording, when the crow
+rubs the logger, sound produced by the rubber are detected as crow sounds.
 
 ## Stage 2 -- Use the model to recognize all crow vocalizations
 
-## Stage 3 -- Classify crow vocalizations
+In a first approach, I've decided to select manualy the crow vocalizations
+as the first detection of 5s-clips is a big effect that reduces to
+nearly 10% the ammount of audio to review.
 
+
+## Stage 3 -- Classify crow vocalizations

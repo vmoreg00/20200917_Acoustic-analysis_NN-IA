@@ -2,3 +2,6 @@ data/*
 results/*
 codigo-demostracion/*
 *.Rhistory
+*__init__.py
+*__pycache__*
+pswd.txt
