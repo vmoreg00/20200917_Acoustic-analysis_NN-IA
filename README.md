@@ -78,9 +78,22 @@ rubs the logger, sound produced by the rubber are detected as crow sounds.
 
 ## Stage 2 -- Use the model to recognize all crow vocalizations
 
-In a first approach, I've decided to select manualy the crow vocalizations
-as the first detection of 5s-clips is a big effect that reduces to
-nearly 10% the ammount of audio to review.
+In a first approach, I've decided to select manualy the crow
+vocalizations as the first detection of 5s-clips is a big effect
+that reduces to nearly 10% the ammount of audio to review.
 
+----
+**In process**:
+
+|                               |            |     |
+|:------------------------------|:----------:|:---:|
+| File IDs parsed               | 1 -- 95    | 95  |
+| File IDs uploaded to server   | 96 -- 223  | 127 |
+| File IDs waiting to be parsed | 224 -- 723 | 500 |
+| File IDs corrupted            | 202        | 1   |
+| File IDs too short            |     --     | 0   |
+| Total files                   |     --     | 723 |
+
+-----
 
 ## Stage 3 -- Classify crow vocalizations
