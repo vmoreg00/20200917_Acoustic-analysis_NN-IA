@@ -96,4 +96,23 @@ that reduces to nearly 10% the ammount of audio to review.
 
 -----
 
+## Stage 3 -- Manual selection of vocalizations recognized by ResNet
+
+  * How to differenciate tagged crow from others
+  * How many time does it saves
+  * Process description (R; `src/5_select-vocalizations.R`)
+
+----
+**In process**:
+
+|                               |                  |      |
+|:------------------------------|:----------------:|:----:|
+| File IDs parsed               | 1 -- 3, 10 -- 36 | 30   |
+| File IDs uploaded to server   | 4 -- 9, 37 -- 95 | 65   |
+| File IDs waiting to be parsed | 96 -- 723        | 628  |
+| Total files                   |        --        | 723  |
+| Vocalizations                 |        --        | 2007 |
+| Spent time                    | 1326 s/file      | ·    |
+
+-----
 ## Stage 3 -- Classify crow vocalizations
