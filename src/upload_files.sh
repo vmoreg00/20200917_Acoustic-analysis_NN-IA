@@ -16,6 +16,6 @@ tail -n +$ID1 ../00_CarrionCrow_DB/data/files.csv | head -n $ID2 \
   | awk '
     BEGIN{FS=";"}
     {
-      print "sshpass -f \"pswd.txt\" scp -P 50055 "$5".wav victorm@vision.unileon.es:~/crow/selector/data/audios/"$1".wav"
+      print "echo "$1"; sshpass -f \"pswd.txt\" scp -P 50055 "$5".wav victorm@vision.unileon.es:~/crow/selector/data/audios/"$1".wav"
     }' \
   | sh;
