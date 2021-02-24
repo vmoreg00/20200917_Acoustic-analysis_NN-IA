@@ -27,33 +27,38 @@ def main():
     if not os.path.exists("./results/resnet_selections/"):
         print("Creating results directory ('./results/resnet_selections/')")
         os.mkdir("./results/resnet_selections/")
-        
+
     # Load files list from DB
     print("Retrieving files list")
     conn = sqlite3.connect('./data/CarrionCrow_DB.sqlite')
     cur = conn.cursor()
     cur.execute("SELECT * FROM files")
-    files = pd.DataFrame(cur.fetchall(), 
-                         columns=['fileID','loggerID','fileStart','fileEnd', 
+    files = pd.DataFrame(cur.fetchall(),
+                         columns=['fileID','loggerID','fileStart','fileEnd',
                                   'location'])
     conn.close(); del(cur)
-    
+
     # Load trained model
     print("Loading trained model (ResNet50V2)")
-    trained_model = ResNet50V2(weights='results/ResNet50V2_best_model.h5', 
+    trained_model = ResNet50V2(weights='results/ResNet50V2_best_model.h5',
                                input_shape=(513,534,1), classes=4)
     categories = ('chicks', 'crow', 'flight', 'noise')
-    
+
     # Iterate through files
     for idx, row in files.iterrows():
+        if not os.path.exists("data/audios/" + str(int(row['fileID'])) + ".wav"):
+            continue
         if re.search('1001$', row['location']):
             continue
-        print("Reading file " + row['fileID'] + ".wav ...")
+        print("Reading file " + str(int(row['fileID'])) + ".wav ...")
+        if row['fileEnd'] - row['fileStart'] < 15:
+            print("\tW: file too short (less than 15 seconds). SKIPPED!")
+            continue
         hist_csv_file = 'results/resnet_selections/file_' + \
             str(int(row['fileID'])) +'.csv'
         if not os.path.exists(hist_csv_file):
             # Generate 5s spectrograms
-            audio_df = uf.get_windows_table("data/audios/" + row['fileID'] + ".wav", 
+            audio_df = uf.get_windows_table("data/audios/" + str(int(row['fileID'])) + ".wav",
                                             int(row['fileID']), 5)
             esp = uf.crear_espectrogramas(audio_df, "tmp.h5",
                                           win_length=300, hop_length=150,
@@ -61,8 +66,8 @@ def main():
             # Generate dataset
             onehotencoder = OneHotEncoder().fit(np.reshape(esp.Sonido.values,
                                                            (-1,1)))
-            new_data = uf.DataGenerator(data_path="tmp.h5", 
-                                        dataframe=esp, 
+            new_data = uf.DataGenerator(data_path="tmp.h5",
+                                        dataframe=esp,
                                         x_col_name='Nombre_fragmento',
                                         y_col_name='Sonido',
                                         onehotencoder=onehotencoder,

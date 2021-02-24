@@ -87,8 +87,8 @@ that reduces to nearly 10% the ammount of audio to review.
 
 |                               |                        |     |
 |:------------------------------|:----------------------:|:---:|
-| File IDs parsed               | 1 -- 223               | 223 |
-| File IDs uploaded to server   | 224 -- 320, 395 -- 420 | 123 |
+| File IDs parsed               | 1 -- 320, 395 -- 420   | 346 |
+| File IDs uploaded to server   | --                     | 0   |
 | File IDs waiting to be parsed | 321 -- 394, 421 -- 723 | 377 |
 | File IDs corrupted            | 202                    | 1   |
 | File IDs too short            | 216 -- 218             | 3   |
@@ -105,14 +105,14 @@ that reduces to nearly 10% the ammount of audio to review.
 ----
 **In process**:
 
-|                               |                              |          |
-|:------------------------------|:----------------------------:|:--------:|
-| File IDs parsed               | 1 -- 3, 10 -- 36, 100 -- 112 | 43       |
-| File IDs recognized by NN     | 4 -- 9, 37 -- 99, 113 -- 223 | 180      |
-| File IDs waiting to be parsed | 224 -- 723                   | 500      |
-| Total files                   |        --                    | 723      |
-| Vocalizations                 |        --                    | 2949     |
-| Spent time                    | 8349 s / 8 files             | 1043 s/f |
+|                               |                                          |          |
+|:------------------------------|:----------------------------------------:|:--------:|
+| File IDs parsed               | 1 -- 3, 10 -- 36, 100 -- 112             | 43       |
+| File IDs recognized by NN     | 4 -- 9, 37 -- 99, 113 -- 320, 395 -- 420 | 303      |
+| File IDs waiting to be parsed | 321 -- 394, 421 -- 723                   | 377      |
+| Total files                   |        --                                | 723      |
+| Vocalizations                 |        --                                | 2949     |
+| Spent time                    | 8349 s / 8 files                         | 1043 s/f |
 
 -----
 ## Stage 3 -- Classify crow vocalizations
