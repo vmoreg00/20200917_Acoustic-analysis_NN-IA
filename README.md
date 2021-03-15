@@ -1,7 +1,13 @@
-# Classification of corvid sound
+# Classification of corvid sound (part 1)
   * **Author**: Víctor Moreno-González <vmorg@unileon.es>
   * **Date**: 2020-09-17
 
+# Table of content
+1. [Motivation](#motivation)
+1. [Stage 0 -- Vocalization extraction](#stage-0----vocalization-extraction)
+1. [Future Steps](#future-steps)
+
+## Motivation
 Automatic crow vocalization recognition has been a tough
 task since it is very difficult to differenciate correctly
 those vocalizations from the background noise. Thus, with
@@ -11,14 +17,11 @@ vocalizations in the whole dataset (up to 3000 H). Then,
 we will use this dataset to perform an objective
 classification of crow vocalizations.
 
-To do this, we will use a subset in of XXX vocalizations
-recorded from YYY hours
-
 ## Stage 0 -- Vocalization extraction
 In past analysis, I have extracted some vocalizations as
 well as environment, flight and chick noises (Table 1).
 For a better training of the model, I have performed
-a data augmentation in which I have triplicate the number
+a data augmentation in which I have triplicated the number
 of crows vocalizations by substracting 0.5-2.45 s and
 2.55-4.5 s to every carrion crow call. In this step,
 I have ensure that all clips that contain the
@@ -26,7 +29,7 @@ same vocalizations (because of data augmentation
 procedure) are in the same set (train or test) to
 avoid over fitting in the Neural Network training.
 
-This stage has been conducted in R
+This task has been conducted in R
 (see [1_vocalization-export.R](src/1_vocalization-export.R))
 for more information.
 
@@ -105,14 +108,30 @@ that reduces to nearly 10% the ammount of audio to review.
 ----
 **In process**:
 
-|                               |                                          |          |
-|:------------------------------|:----------------------------------------:|:--------:|
-| File IDs parsed               | 1 -- 3, 10 -- 36, 100 -- 112             | 43       |
-| File IDs recognized by NN     | 4 -- 9, 37 -- 99, 113 -- 320, 395 -- 420 | 303      |
-| File IDs waiting to be parsed | 321 -- 394, 421 -- 723                   | 377      |
-| Total files                   |        --                                | 723      |
-| Vocalizations                 |        --                                | 2949     |
-| Spent time                    | 8349 s / 8 files                         | 1043 s/f |
-
+|                               |                                  |          |
+|:------------------------------|:--------------------------------:|:--------:|
+| File IDs parsed               | 1 -- 44, 100 -- 200              | 145      |
+| File IDs recognized by NN     | 45 -- 99, 201 -- 320, 395 -- 420 | 201      |
+| File IDs waiting to be parsed | 321 -- 394, 421 -- 723           | 377      |
+| Total files                   |        --                        | 723      |
+| Vocalizations                 |        --                        | 8341     |
+| Spent time                    | 48250 s / 82 files               | 588 s/f  |
+(42256+4034)/81
 -----
-## Stage 3 -- Classify crow vocalizations
+## Stage 3 -- Classify crow vocalizations (Other project)
+After manual selection has been performed, another 
+[project](../20210217_Carrion-crow_Vocal-repertoire/README.md)
+was created to classify carrion vocalizations.
+-----
+## Questions to be addressed -- future steps
+  - How many time ResNet50v2 saves (a lot, I know...)
+  - How well the model works: 
+    * "Real" accuracy of vocalizations
+    * "Real" accuracy of chicks (Predictor of nest visits?)
+    * "Real" accuracy of flights (Compare with WBF of accelerometer)
+  - Circadian rythm of vocalizations: example with three-five crows
+  - Classification of vocalizations -- carrion crow vocal repertoire
+    * Use PCA-tSNE-DBSCAN instead PCA-KMeans
+    * Compare classifications using acoustic features vs. image classification
+  - Duets: Study overlapping vocalizations (could inform on the functionality)
+  

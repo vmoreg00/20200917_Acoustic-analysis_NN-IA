@@ -5,3 +5,8 @@ codigo-demostracion/*
 *__init__.py
 *__pycache__*
 pswd.txt
+InputStreamByteWrapper.class
+MatlabServer.m
+README.html
+tmp-audio-clip.dec
+tmp-audio-clip.wav
