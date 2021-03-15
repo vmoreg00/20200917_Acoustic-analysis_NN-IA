@@ -3,10 +3,18 @@
   * **Date**: 2020-09-17
 
 # Table of content
-1. [Motivation](#motivation)
-1. [Stage 0 -- Vocalization extraction](#stage-0----vocalization-extraction)
+1. [Introduction](#introduction)
+  1. [Motivation](#motivation)
+  1. [Aims](#aims)
+1. [Procedure](#procedure)
+  1. [Stage 0 -- Vocalization extraction](#stage-0-vocalization-extraction)
+  1. [Stage 1 -- Train a model for crow recognition](#stage-1-train-a-model-for-crow-recognition)
+  1. [Stage 2 -- Use the model to select crow vocalizations](#stage-2-use-the-model-to-select-crow-vocalizations)
+  1. [Stage 3 -- Manual selection of crow calls](#stage-3-manual-selection-of-crow-calls)
+1. [What's next](#whats-next)
 1. [Future Steps](#future-steps)
 
+# Introduction
 ## Motivation
 Automatic crow vocalization recognition has been a tough
 task since it is very difficult to differenciate correctly
@@ -17,7 +25,14 @@ vocalizations in the whole dataset (up to 3000 H). Then,
 we will use this dataset to perform an objective
 classification of crow vocalizations.
 
-## Stage 0 -- Vocalization extraction
+## Aims
+...
+
+----
+
+# Procedure
+
+## Stage 0. Vocalization extraction
 In past analysis, I have extracted some vocalizations as
 well as environment, flight and chick noises (Table 1).
 For a better training of the model, I have performed
@@ -48,7 +63,7 @@ has been randomly reduced from 0 to 4.5 seconds. In this
 way the crow calls clips will contain entire and
 non-entire calls.
 
-## Stage 1 -- Train a model for crow recognition
+## Stage 1. Train a model for crow recognition
 In order to train the neural network, it is necessary to
 split the original dataset into train and test subsets.
 Following the recomendations of GVIS group, the sizes
@@ -79,59 +94,72 @@ very few false negatives. The problem arrise for false positives
 for crow sounds: in the first files of recording, when the crow
 rubs the logger, sound produced by the rubber are detected as crow sounds.
 
-## Stage 2 -- Use the model to recognize all crow vocalizations
+## Stage 2. Use the model to select crow vocalizations
 
 In a first approach, I've decided to select manualy the crow
 vocalizations as the first detection of 5s-clips is a big effect
 that reduces to nearly 10% the ammount of audio to review.
 
 ----
+
 **In process**:
 
 |                               |                        |     |
 |:------------------------------|:----------------------:|:---:|
 | File IDs parsed               | 1 -- 320, 395 -- 420   | 346 |
-| File IDs uploaded to server   | --                     | 0   |
-| File IDs waiting to be parsed | 321 -- 394, 421 -- 723 | 377 |
+| File IDs uploaded to server   | 321 -- 394, 421 -- 509 | 163 |
+| File IDs waiting to be parsed | 510 -- 723             | 214 |
 | File IDs corrupted            | 202                    | 1   |
 | File IDs too short            | 216 -- 218             | 3   |
 | Total files                   |     --                 | 723 |
 
 -----
 
-## Stage 3 -- Manual selection of vocalizations recognized by ResNet
+### Real accuracy of the model check
+
+**_TO BE DONE_**
+
+It is important to know the real accuracy value by checking some
+random files. In this way, it can be addressed if this methodology
+is useful for flights and nest visits prediction.
+
+## Stage 3. Manual selection of crow calls
 
   * How to differenciate tagged crow from others
   * How many time does it saves
   * Process description (R; `src/5_select-vocalizations.R`)
 
-----
 **In process**:
 
 |                               |                                  |          |
 |:------------------------------|:--------------------------------:|:--------:|
-| File IDs parsed               | 1 -- 44, 100 -- 200              | 145      |
-| File IDs recognized by NN     | 45 -- 99, 201 -- 320, 395 -- 420 | 201      |
+| File IDs parsed               | 1 -- 47, 100 -- 200              | 148      |
+| File IDs recognized by NN     | 47 -- 99, 201 -- 320, 395 -- 420 | 198      |
 | File IDs waiting to be parsed | 321 -- 394, 421 -- 723           | 377      |
 | Total files                   |        --                        | 723      |
-| Vocalizations                 |        --                        | 8341     |
-| Spent time                    | 48250 s / 82 files               | 588 s/f  |
-(42256+4034)/81
------
-## Stage 3 -- Classify crow vocalizations (Other project)
-After manual selection has been performed, another 
+| Vocalizations                 |        --                        | 8612     |
+| Spent time                    | 50019 s / 85 files               | 588 s/f  |
+
+----
+
+## What's next
+After manual selection has been performed, another
 [project](../20210217_Carrion-crow_Vocal-repertoire/README.md)
 was created to classify carrion vocalizations.
+
 -----
 ## Questions to be addressed -- future steps
   - How many time ResNet50v2 saves (a lot, I know...)
-  - How well the model works: 
+    (Stage 3)
+  - How well the model works (stage 2):
     * "Real" accuracy of vocalizations
     * "Real" accuracy of chicks (Predictor of nest visits?)
     * "Real" accuracy of flights (Compare with WBF of accelerometer)
   - Circadian rythm of vocalizations: example with three-five crows
+    (after stage 3)
   - Classification of vocalizations -- carrion crow vocal repertoire
+    (new project)
     * Use PCA-tSNE-DBSCAN instead PCA-KMeans
     * Compare classifications using acoustic features vs. image classification
   - Duets: Study overlapping vocalizations (could inform on the functionality)
-  
+    (future project)
