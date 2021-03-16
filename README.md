@@ -100,20 +100,17 @@ In a first approach, I've decided to select manualy the crow
 vocalizations as the first detection of 5s-clips is a big effect
 that reduces to nearly 10% the ammount of audio to review.
 
-----
-
 **In process**:
 
-|                               |                        |     |
-|:------------------------------|:----------------------:|:---:|
-| File IDs parsed               | 1 -- 320, 395 -- 420   | 346 |
-| File IDs uploaded to server   | 321 -- 394, 421 -- 509 | 163 |
-| File IDs waiting to be parsed | 510 -- 723             | 214 |
-| File IDs corrupted            | 202                    | 1   |
-| File IDs too short            | 216 -- 218             | 3   |
-| Total files                   |     --                 | 723 |
+|                               |            |     |
+|:------------------------------|:----------:|:---:|
+| File IDs parsed               |   1 -- 509 | 509 |
+| File IDs uploaded to server   |     --     | 0   |
+| File IDs waiting to be parsed | 510 -- 723 | 214 |
+| File IDs corrupted            | 202        | 1   |
+| File IDs too short            | 216 -- 218 | 3   |
+| Total files                   |     --     | 723 |
 
------
 
 ### Real accuracy of the model check
 
@@ -131,14 +128,14 @@ is useful for flights and nest visits prediction.
 
 **In process**:
 
-|                               |                                  |          |
-|:------------------------------|:--------------------------------:|:--------:|
-| File IDs parsed               | 1 -- 47, 100 -- 200              | 148      |
-| File IDs recognized by NN     | 47 -- 99, 201 -- 320, 395 -- 420 | 198      |
-| File IDs waiting to be parsed | 321 -- 394, 421 -- 723           | 377      |
-| Total files                   |        --                        | 723      |
-| Vocalizations                 |        --                        | 8612     |
-| Spent time                    | 50019 s / 85 files               | 588 s/f  |
+|                               |                      |          |
+|:------------------------------|:--------------------:|:--------:|
+| File IDs parsed               | 1 -- 47, 100 -- 200  | 148      |
+| File IDs recognized by NN     | 48 -- 99, 201 -- 509 | 361      |
+| File IDs waiting to be parsed | 510 -- 723           | 214      |
+| Total files                   |        --            | 723      |
+| Vocalizations                 |        --            | 8612     |
+| Spent time                    | 50019 s / 85 files   | 588 s/f  |
 
 ----
 
