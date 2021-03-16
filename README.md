@@ -130,12 +130,12 @@ is useful for flights and nest visits prediction.
 
 |                               |                      |          |
 |:------------------------------|:--------------------:|:--------:|
-| File IDs parsed               | 1 -- 47, 100 -- 200  | 148      |
-| File IDs recognized by NN     | 48 -- 99, 201 -- 509 | 361      |
+| File IDs parsed               | 1 -- 50, 100 -- 200  | 151      |
+| File IDs recognized by NN     | 51 -- 99, 201 -- 509 | 358      |
 | File IDs waiting to be parsed | 510 -- 723           | 214      |
 | Total files                   |        --            | 723      |
-| Vocalizations                 |        --            | 8612     |
-| Spent time                    | 50019 s / 85 files   | 588 s/f  |
+| Vocalizations                 |        --            | 9127     |
+| Spent time                    | 53070 s / 88 files   | 603 s/f  |
 
 ----
 
@@ -158,5 +158,6 @@ was created to classify carrion vocalizations.
     (new project)
     * Use PCA-tSNE-DBSCAN instead PCA-KMeans
     * Compare classifications using acoustic features vs. image classification
+    * Adecuation of vocal repertoire to Zipf's Law
   - Duets: Study overlapping vocalizations (could inform on the functionality)
     (future project)
