@@ -90,7 +90,7 @@ for(f in lf){
       }
     }
     setTxtProgressBar(pb, i)
-  }; rm(i); close(pb)
+  }; rm(i); close(pb) 
   t2 <- as.numeric(Sys.time())
   st <- round(t2 - t1)
   cat("\tDONE! (", st, " s", ")\n", sep = "")
@@ -102,15 +102,6 @@ save(vocs, file = "results/resnet_selections/00_Selections.RDa")
 # Fix selections ==============================================================
 # Remove unnecesary columns 
 vocs <- vocs[, -c(5,6)]
-# Fix start-end mistakes
-if(any(vocs$end.in.file < vocs$start.in.file)){
-  idx <- which(vocs$end.in.file < vocs$start.in.file)
-  for(i in idx){
-    start <- vocs$start.in.file[i]
-    vocs$start.in.file[i] <- vocs$end.in.file[i]
-    vocs$end.in.file[i] <- start
-  }
-}; rm(idx, start, i)
 
 # Remove overlapping selections
 vocs <- vocs[order(vocs$file, vocs$start.in.file),]
