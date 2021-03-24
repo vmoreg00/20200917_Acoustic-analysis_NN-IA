@@ -104,9 +104,9 @@ that reduces to nearly 10% the ammount of audio to review.
 
 |                               |            |     |
 |:------------------------------|:----------:|:---:|
-| File IDs parsed               |   1 -- 509 | 509 |
+| File IDs parsed               |   1 -- 723 | 723 |
 | File IDs uploaded to server   |     --     | 0   |
-| File IDs waiting to be parsed | 510 -- 723 | 214 |
+| File IDs waiting to be parsed |     --     | 0   |
 | File IDs corrupted            | 202        | 1   |
 | File IDs too short            | 216 -- 218 | 3   |
 | Total files                   |     --     | 723 |
@@ -130,12 +130,12 @@ is useful for flights and nest visits prediction.
 
 |                               |                      |          |
 |:------------------------------|:--------------------:|:--------:|
-| File IDs parsed               | 1 -- 56, 100 -- 200  | 157      |
-| File IDs recognized by NN     | 57 -- 99, 201 -- 509 | 352      |
-| File IDs waiting to be parsed | 510 -- 723           | 214      |
+| File IDs parsed               | 1 -- 60, 100 -- 200  | 161      |
+| File IDs recognized by NN     | 61 -- 99, 201 -- 723 | 562      |
+| File IDs waiting to be parsed |                      | 0        |
 | Total files                   |        --            | 723      |
-| Vocalizations                 |        --            | 9751     |
-| Spent time                    | 54641 s / 91 files   | 600 s/f  |
+| Vocalizations                 |        --            | 10407    |
+| Spent time                    | 60715 s / 95 files   | 639 s/f  |
 
 ----
 
