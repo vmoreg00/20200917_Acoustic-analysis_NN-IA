@@ -60,9 +60,15 @@ def main():
             # Generate 5s spectrograms
             audio_df = uf.get_windows_table("data/audios/" + str(int(row['fileID'])) + ".wav",
                                             int(row['fileID']), 5)
-            esp = uf.crear_espectrogramas(audio_df, "tmp.h5",
-                                          win_length=300, hop_length=150,
-                                          spectrogram_dimensiones=(513,534,1))
+            try:
+                esp = uf.crear_espectrogramas(audio_df, "tmp.h5",
+                                              win_length=300, hop_length=150,
+                                              spectrogram_dimensiones=(513,534,1))
+            except:
+                print("\tWARNING: Unable to parse this file")
+                os.remove('tmp.h5')
+                gc.collect()
+                continue
             # Generate dataset
             onehotencoder = OneHotEncoder().fit(np.reshape(esp.Sonido.values,
                                                            (-1,1)))
