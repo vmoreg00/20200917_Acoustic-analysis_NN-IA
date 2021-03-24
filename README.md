@@ -100,7 +100,7 @@ In a first approach, I've decided to select manualy the crow
 vocalizations as the first detection of 5s-clips is a big effect
 that reduces to nearly 10% the ammount of audio to review.
 
-**In process**:
+**Done**:
 
 |                               |            |     |
 |:------------------------------|:----------:|:---:|
