@@ -67,6 +67,13 @@ for(f in lf){
   t1 <- as.numeric(Sys.time())
   pb <- txtProgressBar(min = 0, max = nrow(automatic_detec), style = 3)
   for(i in 1:nrow(automatic_detec)){
+    if(nrow(sss) > 0){
+      if(automatic_detec$Segundo[i] > min(sss$start) &
+         automatic_detec$Segundo[i] < max(sss$start)){
+        setTxtProgressBar(pb, i)
+        next
+      }
+    }
     a <- readWave(filename = archivo,
                   from = automatic_detec$Segundo[i],
                   to = automatic_detec$Segundo[i] + 5,
@@ -83,14 +90,16 @@ for(f in lf){
     if(nrow(lml) > 0){
       lml$label <- automatic_detec$Nombre_fragmento[i]
       lml <- sel_tailor2(lml, width = 12.5, windowlength = 15)
-      if(!exists("vocs")){
-        vocs <- lml
-      } else {
-        vocs <- rbind(vocs, lml)
+      if(nrow(lml) > 0){
+        if(!exists("vocs")){
+          vocs <- lml
+        } else {
+          vocs <- rbind(vocs, lml)
+        }
       }
     }
     setTxtProgressBar(pb, i)
-  }; rm(i); close(pb) 
+  }; rm(i); close(pb)
   t2 <- as.numeric(Sys.time())
   st <- round(t2 - t1)
   cat("\tDONE! (", st, " s", ")\n", sep = "")
@@ -100,7 +109,7 @@ for(f in lf){
 save(vocs, file = "results/resnet_selections/00_Selections.RDa")
 
 # Fix selections ==============================================================
-# Remove unnecesary columns 
+# Remove unnecesary columns
 vocs <- vocs[, -c(5,6)]
 
 # Remove overlapping selections
@@ -125,4 +134,4 @@ vocs <- vocs[order(vocs$ID),]
 write.table(vocs, file = "results/resnet_selections/00_Selections.tsv",
             sep = ",", quote = F, col.names = T, row.names = F, dec = ".")
 
-# 
+#
