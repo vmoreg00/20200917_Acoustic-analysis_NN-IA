@@ -130,12 +130,12 @@ is useful for flights and nest visits prediction.
 
 |                               |                      |          |
 |:------------------------------|:--------------------:|:--------:|
-| File IDs parsed               | 1 -- 94, 100 -- 200  | 170      |
-| File IDs recognized by NN     | 95 -- 99, 201 -- 723 | 543      |
+| File IDs parsed               | 1 -- 224             | 224      |
+| File IDs recognized by NN     | 225 -- 723           | 499      |
 | File IDs waiting to be parsed |                      | 0        |
 | Total files                   |        --            | 723      |
-| Vocalizations                 |        --            | 12869    |
-| Spent time                    | 66939 s / 104 files  | 643 s/f  |
+| Vocalizations                 |        --            | 13595    |
+| Spent time                    | 69122 s / 109 files  | 634 s/f  |
 
 ----
 

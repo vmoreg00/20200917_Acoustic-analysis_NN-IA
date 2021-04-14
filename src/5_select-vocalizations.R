@@ -41,11 +41,8 @@ for(f in lf){
   } else {
     fid <- files$fileID[files$location == unlist(strsplit(archivo, "\\."))[1]]
   }
-  if(! fid %in% 37:99){
-    next
-  }
   if(archivo %in% unique(vocs$file) | fid %in% c(127, 163, 180, 182, 185, 196,
-                                                 198, 199)){
+                                                 198, 199, 206, 210)){
     cat("\tSKIPPING (already parsed)\n")
     next
   }
