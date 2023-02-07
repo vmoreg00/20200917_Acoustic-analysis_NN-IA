@@ -104,12 +104,12 @@ that reduces to nearly 10% the ammount of audio to review.
 
 |                               |            |     |
 |:------------------------------|:----------:|:---:|
-| File IDs parsed               |   1 -- 723 | 723 |
-| File IDs uploaded to server   |     --     | 0   |
-| File IDs waiting to be parsed |     --     | 0   |
-| File IDs corrupted            | 202        | 1   |
-| File IDs too short            | 216 -- 218 | 3   |
-| Total files                   |     --     | 723 |
+| File IDs parsed               |   1 -- 955 | 955 |
+| File IDs uploaded to server   |     --     |   0 |
+| File IDs waiting to be parsed |     --     |   0 |
+| File IDs corrupted            | 202        |   1 |
+| File IDs too short            | 216 -- 218 |   3 |
+| Total files                   |     --     | 955 |
 
 
 ### Real accuracy of the model check
@@ -119,6 +119,18 @@ that reduces to nearly 10% the ammount of audio to review.
 It is important to know the real accuracy value by checking some
 random files. In this way, it can be addressed if this methodology
 is useful for flights and nest visits prediction.
+
+The approach is going to consist in selecting 5000 random windows
+(*c*. ___ windows per file) to listen to them and check the real
+label. After that, a confusion matrix will be constructed and
+accuracy values computed.
+
+This will be done in Python as it is much faster in 
+reading/writing audio files. 5000 random windows
+will be selected and read using librosa. Then
+each 5-s clip will be saved with its label and ID.
+After that, each clip will be listened and
+re-labelled.
 
 ## Stage 3. Manual selection of crow calls
 

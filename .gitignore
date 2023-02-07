@@ -1,6 +1,7 @@
 data/*
 results/*
 codigo-demostracion/*
+sv/*
 *.Rhistory
 *__init__.py
 *__pycache__*
@@ -10,3 +11,5 @@ MatlabServer.m
 README.html
 tmp-audio-clip.dec
 tmp-audio-clip.wav
+upload_list.txt
+.Rproj.user

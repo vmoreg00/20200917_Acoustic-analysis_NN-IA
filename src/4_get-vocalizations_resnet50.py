@@ -35,7 +35,7 @@ def main():
     cur.execute("SELECT * FROM files")
     files = pd.DataFrame(cur.fetchall(),
                          columns=['fileID','loggerID','fileStart','fileEnd',
-                                  'location'])
+                                  'location','comments'])
     conn.close(); del(cur)
 
     # Load trained model
@@ -43,12 +43,15 @@ def main():
     trained_model = ResNet50V2(weights='results/ResNet50V2_best_model.h5',
                                input_shape=(513,534,1), classes=4)
     categories = ('chicks', 'crow', 'flight', 'noise')
+    print("\tLoaded!")
 
     # Iterate through files
     for idx, row in files.iterrows():
-        if not os.path.exists("data/audios/" + str(int(row['fileID'])) + ".wav"):
+        if not os.path.exists("data/audios/" + str(int(row['fileID'])) + ".wav") and not os.path.exists(row['location'] + ".wav"):
+            print("WAV file for file " + str(int(row['fileID'])) + " not found")
             continue
         if re.search('1001$', row['location']):
+            print("File 001 skiped")
             continue
         print("Reading file " + str(int(row['fileID'])) + ".wav ...")
         if row['fileEnd'] - row['fileStart'] < 15:
@@ -57,9 +60,12 @@ def main():
         hist_csv_file = 'results/resnet_selections/file_' + \
             str(int(row['fileID'])) +'.csv'
         if not os.path.exists(hist_csv_file):
+            if os.path.exists(row['location'] + ".wav"):
+                wavname = row['location'] + ".wav"
+            else:
+                wavname = "data/audios/" + str(int(row['fileID'])) + ".wav"
             # Generate 5s spectrograms
-            audio_df = uf.get_windows_table("data/audios/" + str(int(row['fileID'])) + ".wav",
-                                            int(row['fileID']), 5)
+            audio_df = uf.get_windows_table(wavname, int(row['fileID']), 5)
             try:
                 esp = uf.crear_espectrogramas(audio_df, "tmp.h5",
                                               win_length=300, hop_length=150,
@@ -97,5 +103,7 @@ def main():
             os.remove('tmp.h5')
             gc.collect()
         print("\tDONE!")
+    print("\n\n\n\tFINISHED")
+
 if __name__ == '__main__':
     main()
