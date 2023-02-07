@@ -1,5 +1,7 @@
 data/*
-results/*
+*.h5
+results/resnet_selections/file_*
+results/resnet_selections/00_Selections_backup_*
 codigo-demostracion/*
 sv/*
 *.Rhistory

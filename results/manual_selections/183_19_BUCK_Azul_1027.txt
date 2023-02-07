@@ -1,0 +1,2 @@
+Selection	View	Channel	Begin Time (s)	End Time (s)	Low Freq (Hz)	High Freq (Hz)	Annotation
+1	Spectrogram 1	1	19410.0212000619	19410.2694294861	267.18718359595	2531.54216085416	183_19410_1

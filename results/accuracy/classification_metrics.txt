@@ -1,0 +1,10 @@
+              precision    recall  f1-score   support
+
+      chicks       0.90      0.87      0.88        70
+        crow       0.99      0.95      0.97       948
+      flight       0.94      1.00      0.97       102
+       noise       0.95      0.99      0.97       758
+
+    accuracy                           0.97      1878
+   macro avg       0.95      0.95      0.95      1878
+weighted avg       0.97      0.97      0.97      1878
